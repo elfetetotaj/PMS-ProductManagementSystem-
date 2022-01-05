@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using PMS.Models;
 
 namespace PMS.Data
 {
@@ -12,5 +10,11 @@ namespace PMS.Data
             : base(options)
         {
         }
+
+        public DbSet<Company> Companies { get; set; }
+        public DbSet<Country> Countries { get; set; }
+        public DbSet<City> Cities { get; set; }
+        public DbSet<Product> Products { get; set; }
+
     }
 }
