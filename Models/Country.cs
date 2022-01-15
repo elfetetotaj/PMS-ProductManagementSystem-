@@ -8,7 +8,7 @@ namespace PMS.Models
     public class Country
     {
         [Key]
-        public int Id { get; set; }
+        public int CountryId { get; set; }
         public string CountryName { get; set; }
         public int CountryCode { get; set; }
         public string Area { get; set; }    

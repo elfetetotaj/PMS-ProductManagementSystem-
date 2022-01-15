@@ -1,22 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PMS.Data;
 using PMS.Models;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace PMS.Controllers
 {
+    [Area("Admin")]
     public class ProductsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IHostingEnvironment _hostEnvironment;
 
-        public ProductsController(ApplicationDbContext context)
+        public ProductsController(ApplicationDbContext context, IHostingEnvironment hostingEnvironment )
         {
             _context = context;
+            _hostEnvironment = hostingEnvironment;  
         }
 
         // GET: Products
@@ -34,7 +36,7 @@ namespace PMS.Controllers
             }
 
             var product = await _context.Products
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.ProductId == id);
             if (product == null)
             {
                 return NotFound();
@@ -46,6 +48,7 @@ namespace PMS.Controllers
         // GET: Products/Create
         public IActionResult Create()
         {
+            ViewData["CountryId"] = new SelectList(_context.Countries.ToList(), "CountryId", "CountryName");
             return View();
         }
 
@@ -60,6 +63,8 @@ namespace PMS.Controllers
             {
                 _context.Add(product);
                 await _context.SaveChangesAsync();
+                TempData["save"] = "Product has been save successfully";
+                ViewData["CountryId"] = new SelectList(_context.Countries.ToList(), "CountryId", "CountryName");
                 return RedirectToAction(nameof(Index));
             }
             return View(product);
@@ -88,7 +93,7 @@ namespace PMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,ProductId,Name,ShortDescription,FullDescription,Price,DateTime")] Product product)
         {
-            if (id != product.Id)
+            if (id != product.ProductId)
             {
                 return NotFound();
             }
@@ -102,7 +107,7 @@ namespace PMS.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProductExists(product.Id))
+                    if (!ProductExists(product.ProductId))
                     {
                         return NotFound();
                     }
@@ -125,7 +130,7 @@ namespace PMS.Controllers
             }
 
             var product = await _context.Products
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.ProductId == id);
             if (product == null)
             {
                 return NotFound();
@@ -147,7 +152,7 @@ namespace PMS.Controllers
 
         private bool ProductExists(int id)
         {
-            return _context.Products.Any(e => e.Id == id);
+            return _context.Products.Any(e => e.ProductId == id);
         }
     }
 }

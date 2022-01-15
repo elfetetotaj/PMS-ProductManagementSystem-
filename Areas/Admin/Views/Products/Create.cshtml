@@ -1,18 +1,17 @@
 ﻿@model PMS.Models.Product
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Create";
 }
 
-<h1>Edit</h1>
+<br />
 
-<h4>Product</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
+<h2 class="text-info">Create Product</h2>
+
+<div class="container row p-0 m-0">
+    @*<div class="col-md-4">*@
+        <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="ProductId" class="control-label"></label>
                 <input asp-for="ProductId" class="form-control" />
@@ -44,10 +43,15 @@
                 <span asp-validation-for="DateTime" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <select asp-for="CountryId" asp-items="ViewBag.CountryId" class="form-control"></select>
+                @*<input asp-for="SpecialTagId" class="form-control" />*@
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-success" />
             </div>
         </form>
-    </div>
+   @* </div>*@
 </div>
 
 <div>

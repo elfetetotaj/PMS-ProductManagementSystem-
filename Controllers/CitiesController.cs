@@ -33,7 +33,7 @@ namespace PMS.Controllers
             }
 
             var city = await _context.Cities
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.CityId == id);
             if (city == null)
             {
                 return NotFound();
@@ -87,7 +87,7 @@ namespace PMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,CityName,ZipCode,DateTime")] City city)
         {
-            if (id != city.Id)
+            if (id != city.CityId)
             {
                 return NotFound();
             }
@@ -101,7 +101,7 @@ namespace PMS.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CityExists(city.Id))
+                    if (!CityExists(city.CityId))
                     {
                         return NotFound();
                     }
@@ -124,7 +124,7 @@ namespace PMS.Controllers
             }
 
             var city = await _context.Cities
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.CityId == id);
             if (city == null)
             {
                 return NotFound();
@@ -146,7 +146,7 @@ namespace PMS.Controllers
 
         private bool CityExists(int id)
         {
-            return _context.Cities.Any(e => e.Id == id);
+            return _context.Cities.Any(e => e.CityId == id);
         }
     }
 }

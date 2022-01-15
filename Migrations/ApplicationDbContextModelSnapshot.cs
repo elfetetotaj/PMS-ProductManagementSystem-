@@ -3,17 +3,15 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PMS.Data;
 
-namespace PMS.Data.Migrations
+namespace PMS.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220105164026_InitialCreate")]
-    partial class InitialCreate
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -223,7 +221,7 @@ namespace PMS.Data.Migrations
 
             modelBuilder.Entity("PMS.Data.City", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("CityId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -240,7 +238,7 @@ namespace PMS.Data.Migrations
                     b.Property<string>("ZipCode")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("CityId");
 
                     b.HasIndex("CountryId");
 
@@ -249,7 +247,7 @@ namespace PMS.Data.Migrations
 
             modelBuilder.Entity("PMS.Models.Company", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("CompanyId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -260,7 +258,7 @@ namespace PMS.Data.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("CitiesId")
+                    b.Property<int?>("CitiesCityId")
                         .HasColumnType("int");
 
                     b.Property<string>("City")
@@ -287,9 +285,9 @@ namespace PMS.Data.Migrations
                     b.Property<DateTime?>("dateTime")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("Id");
+                    b.HasKey("CompanyId");
 
-                    b.HasIndex("CitiesId");
+                    b.HasIndex("CitiesCityId");
 
                     b.HasIndex("CountryId");
 
@@ -298,7 +296,7 @@ namespace PMS.Data.Migrations
 
             modelBuilder.Entity("PMS.Models.Country", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("CountryId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -315,25 +313,28 @@ namespace PMS.Data.Migrations
                     b.Property<DateTime?>("DateTime")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("Id");
+                    b.HasKey("CountryId");
 
                     b.ToTable("Countries");
                 });
 
             modelBuilder.Entity("PMS.Models.Product", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ProductId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("CityId")
+                    b.Property<int>("CityId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("CompanyId")
+                    b.Property<int?>("Cityd")
                         .HasColumnType("int");
 
-                    b.Property<int?>("CountryId")
+                    b.Property<int>("CompanyId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CountryId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("DateTime")
@@ -342,21 +343,28 @@ namespace PMS.Data.Migrations
                     b.Property<string>("FullDescription")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsAvailable")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
+                    b.Property<string>("ProductColor")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ShortDescription")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.Property<int>("UniqueId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("CityId");
+                    b.HasKey("ProductId");
+
+                    b.HasIndex("Cityd");
 
                     b.HasIndex("CompanyId");
 
@@ -429,7 +437,7 @@ namespace PMS.Data.Migrations
                 {
                     b.HasOne("PMS.Data.City", "Cities")
                         .WithMany("Companies")
-                        .HasForeignKey("CitiesId");
+                        .HasForeignKey("CitiesCityId");
 
                     b.HasOne("PMS.Models.Country", "Country")
                         .WithMany("Companies")
@@ -444,15 +452,19 @@ namespace PMS.Data.Migrations
                 {
                     b.HasOne("PMS.Data.City", "City")
                         .WithMany()
-                        .HasForeignKey("CityId");
+                        .HasForeignKey("Cityd");
 
                     b.HasOne("PMS.Models.Company", "Company")
                         .WithMany()
-                        .HasForeignKey("CompanyId");
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("PMS.Models.Country", "Country")
                         .WithMany()
-                        .HasForeignKey("CountryId");
+                        .HasForeignKey("CountryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("City");
 

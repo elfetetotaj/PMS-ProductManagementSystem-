@@ -34,7 +34,7 @@ namespace PMS.Controllers
             }
 
             var country = await _context.Countries
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.CountryId == id);
             if (country == null)
             {
                 return NotFound();
@@ -88,7 +88,7 @@ namespace PMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,CountryName,CountryCode,Area,DateTime")] Country country)
         {
-            if (id != country.Id)
+            if (id != country.CountryId)
             {
                 return NotFound();
             }
@@ -102,7 +102,7 @@ namespace PMS.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CountryExists(country.Id))
+                    if (!CountryExists(country.CountryId))
                     {
                         return NotFound();
                     }
@@ -125,7 +125,7 @@ namespace PMS.Controllers
             }
 
             var country = await _context.Countries
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.CountryId == id);
             if (country == null)
             {
                 return NotFound();
@@ -147,7 +147,7 @@ namespace PMS.Controllers
 
         private bool CountryExists(int id)
         {
-            return _context.Countries.Any(e => e.Id == id);
+            return _context.Countries.Any(e => e.CountryId == id);
         }
     }
 }

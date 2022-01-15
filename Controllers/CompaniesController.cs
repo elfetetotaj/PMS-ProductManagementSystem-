@@ -34,7 +34,7 @@ namespace PMS.Controllers
             }
 
             var company = await _context.Companies
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.CompanyId == id);
             if (company == null)
             {
                 return NotFound();
@@ -88,7 +88,7 @@ namespace PMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,CompanyName,Address,Email,NrTelefonit,NrFiskal,County,City,Active,dateTime")] Company company)
         {
-            if (id != company.Id)
+            if (id != company.CompanyId)
             {
                 return NotFound();
             }
@@ -102,7 +102,7 @@ namespace PMS.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CompanyExists(company.Id))
+                    if (!CompanyExists(company.CompanyId))
                     {
                         return NotFound();
                     }
@@ -125,7 +125,7 @@ namespace PMS.Controllers
             }
 
             var company = await _context.Companies
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.CompanyId == id);
             if (company == null)
             {
                 return NotFound();
@@ -147,7 +147,7 @@ namespace PMS.Controllers
 
         private bool CompanyExists(int id)
         {
-            return _context.Companies.Any(e => e.Id == id);
+            return _context.Companies.Any(e => e.CompanyId == id);
         }
     }
 }
