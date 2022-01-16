@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,8 @@ using PMS.Models;
 
 namespace PMS.Controllers
 {
+    [Area("Admin")]
+    //[Authorize(Roles = "Super user")]
     public class CountriesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -18,7 +21,7 @@ namespace PMS.Controllers
         {
             _context = context;
         }
-
+        //[AllowAnonymous]
         // GET: Countries
         public async Task<IActionResult> Index()
         {
@@ -60,6 +63,7 @@ namespace PMS.Controllers
             {
                 _context.Add(country);
                 await _context.SaveChangesAsync();
+                TempData["save"] = "Country has been saved";
                 return RedirectToAction(nameof(Index));
             }
             return View(country);
@@ -88,10 +92,10 @@ namespace PMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,CountryName,CountryCode,Area,DateTime")] Country country)
         {
-            if (id != country.CountryId)
-            {
-                return NotFound();
-            }
+            //if (id != country.CountryId)
+            //{
+            //    return NotFound();
+            //}
 
             if (ModelState.IsValid)
             {
@@ -99,6 +103,7 @@ namespace PMS.Controllers
                 {
                     _context.Update(country);
                     await _context.SaveChangesAsync();
+                    TempData["edit"] = "Country has been updated";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -139,9 +144,14 @@ namespace PMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            if (id == null)
+            {
+                return NotFound();
+            }
             var country = await _context.Countries.FindAsync(id);
             _context.Countries.Remove(country);
             await _context.SaveChangesAsync();
+            TempData["delete"] = "Country has been deleted";
             return RedirectToAction(nameof(Index));
         }
 

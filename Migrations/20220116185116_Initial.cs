@@ -52,10 +52,9 @@ namespace PMS.Migrations
                 {
                     CountryId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CountryName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CountryName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CountryCode = table.Column<int>(type: "int", nullable: false),
-                    Area = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DateTime = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    CreatedDateTime = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -233,6 +232,7 @@ namespace PMS.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UniqueId = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ShortDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FullDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),

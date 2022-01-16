@@ -10,8 +10,8 @@ using PMS.Data;
 namespace PMS.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220116171047_Edit")]
-    partial class Edit
+    [Migration("20220116185116_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -303,16 +303,14 @@ namespace PMS.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Area")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("CountryCode")
                         .HasColumnType("int");
 
                     b.Property<string>("CountryName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("DateTime")
+                    b.Property<DateTime?>("CreatedDateTime")
                         .HasColumnType("datetime2");
 
                     b.HasKey("CountryId");

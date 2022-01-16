@@ -1,0 +1,79 @@
+﻿@using PMS.Models;
+@model IEnumerable<Country>
+@{
+    ViewData["Title"] = "Index";
+}
+<br />
+<br />
+<div class="row">
+    <div class="col-6">
+        <h2 class="text-info">Country List</h2>
+    </div>
+    <div class="col-6 text-right">
+        <a asp-action="Create" class="btn btn-info"><i class="fas fa-plus"></i>&nbsp; New Country</a>
+    </div>
+</div>
+<br />
+<div>
+    <br />
+    <table class="table table-striped border" id="myTable">
+        <thead>
+            <tr class="table-info">
+                <th>
+                    @Html.DisplayNameFor(model => model.CountryId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CountryName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CountryCode)
+                </th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody >
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CountryId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CountryName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CountryCode)
+                    </td>
+                    <td @*style="width: 450px"*@>
+                        <div class="btn-group">
+                            <a asp-action="Edit" class="btn btn-primary" asp-route-id="@item.CountryId"><i class="far fa-edit"></i></a>
+                            <a asp-action="Details" class="btn btn-success" asp-route-id="@item.CountryId"><i class="fas fa-list-ul"></i></a>
+                            <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.CountryId">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@section scripts{
+<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.11.2/build/alertify.min.js"></script>
+<script type="text/javascript">
+    $(function(){
+        var save = '@TempData["save"]'
+        if(save!='') {
+            alertify.success(save);
+        }
+        var edit = '@TempData["edit"]'
+        if(edit!='') {
+            alertify.success(edit);
+        }
+        var del = '@TempData["delete"]'
+        if (del!='') {
+            alertify.error(del);
+        }
+    })
+</script>
+}

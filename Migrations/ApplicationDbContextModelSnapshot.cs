@@ -301,16 +301,14 @@ namespace PMS.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Area")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("CountryCode")
                         .HasColumnType("int");
 
                     b.Property<string>("CountryName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("DateTime")
+                    b.Property<DateTime?>("CreatedDateTime")
                         .HasColumnType("datetime2");
 
                     b.HasKey("CountryId");

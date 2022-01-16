@@ -9,13 +9,14 @@ namespace PMS.Models
     {
         [Key]
         public int CountryId { get; set; }
+        [Required]
         public string CountryName { get; set; }
-        public int CountryCode { get; set; }
-        public string Area { get; set; }    
-        public DateTime? DateTime { get; set; }
+        public int CountryCode { get; set; } 
+        [DataType(DataType.Date)]
+        public DateTime? CreatedDateTime { get; set; }
 
-        public ICollection<Company> Companies { get; set; }
-        public ICollection<City> Cities { get; set; }   
+        public virtual ICollection<Company> Companies { get; set; }
+        public virtual ICollection<City> Cities { get; set; }   
 
     }
 }
