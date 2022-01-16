@@ -14,7 +14,25 @@
     </div>
 </div>
 
-<table class="table">
+</div>
+<form method="post">
+    <div class="row">
+        <div class="col-3">
+            <input type="number" class="form-control" name="lowAmount"/>
+        </div>
+        <div class="col-3">
+            <input type="number" class="form-control" name="largeAmount"/>
+        </div>
+        <div class="col-3">
+            <input type="submit" value="Search" class="btn btn-success"/>
+        </div>
+        <div class="col-3"></div>
+    </div>
+</form>
+<br />
+<div>
+
+<table class="table progress-bar-striped border" id="myTable">
     <thead>
         <tr>
             <th>
@@ -58,7 +76,7 @@
                     @Html.DisplayFor(modelItem => item.Price)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.DateTime)
+                    @Html.DisplayFor(modelItem => item.Image)
                 </td>
                 <td style="width: 450px">
                     <div class="btn-group">

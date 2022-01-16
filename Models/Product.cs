@@ -13,6 +13,7 @@ namespace PMS.Models
         public int UniqueId { get; set; }
         [Required]
         public string Name { get; set; }
+        public string Image { get; set; }
         public string ShortDescription { get; set; }
         public string FullDescription { get; set; }
         [Required]

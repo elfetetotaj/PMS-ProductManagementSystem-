@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PMS.Data;
 using PMS.Models;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -57,14 +59,33 @@ namespace PMS.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ProductId,Name,ShortDescription,FullDescription,Price,DateTime")] Product product)
+        public async Task<IActionResult> Create([Bind("Id,ProductId,Name,ShortDescription,FullDescription,Price,DateTime")] Product product, IFormFile image)
         {
             if (ModelState.IsValid)
             {
+                var searchProduct = _context.Products.FirstOrDefault(c => c.Name == product.Name);
+                if(searchProduct == null)
+                {
+                    ViewBag.messagee = "This product already exist";
+                    //TempData["save"] = "Product has been save successfully";
+                    ViewData["CountryId"] = new SelectList(_context.Countries.ToList(), "CountryId", "CountryName");
+                    return View(product);
+                }
+
+                if (image != null)
+                {
+                    var name = Path.Combine(_hostEnvironment.WebRootPath + "/Images", Path.GetFileName(image.FileName));
+                    await image.CopyToAsync(new FileStream(name, FileMode.Create));
+                    product.Image = "Images/" + image.FileName;
+                }
+
+                if (image == null)
+                {
+                    product.Image = "Images/noimage.PNG";
+                }
+
                 _context.Add(product);
                 await _context.SaveChangesAsync();
-                TempData["save"] = "Product has been save successfully";
-                ViewData["CountryId"] = new SelectList(_context.Countries.ToList(), "CountryId", "CountryName");
                 return RedirectToAction(nameof(Index));
             }
             return View(product);
@@ -91,7 +112,7 @@ namespace PMS.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,ProductId,Name,ShortDescription,FullDescription,Price,DateTime")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,ProductId,Name,ShortDescription,FullDescription,Price,DateTime")] Product product, IFormFile image)
         {
             if (id != product.ProductId)
             {
@@ -102,6 +123,18 @@ namespace PMS.Controllers
             {
                 try
                 {
+                    if (image != null)
+                    {
+                        var name = Path.Combine(_hostEnvironment.WebRootPath + "/Images", Path.GetFileName(image.FileName));
+                        await image.CopyToAsync(new FileStream(name, FileMode.Create));
+                        product.Image = "Images/" + image.FileName;
+                    }
+
+                    if (image == null)
+                    {
+                        product.Image = "Images/noimage.PNG";
+                    }
+
                     _context.Update(product);
                     await _context.SaveChangesAsync();
                 }
