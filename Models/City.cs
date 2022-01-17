@@ -12,7 +12,7 @@ namespace PMS.Data
         public int CityId { get; set; }
         public string CityName { get; set; }
         public string ZipCode { get; set; }
-
+        [DataType(DataType.Date)]
         public DateTime? CreatedDateTime { get; set; }
 
 
@@ -21,5 +21,6 @@ namespace PMS.Data
         [ForeignKey("CountryId")]
         public virtual Country Country { get; set; }
         public virtual ICollection<Company> Companies { get; set; }
+        public virtual ICollection<Product> Products { get; set; }
     }
 }

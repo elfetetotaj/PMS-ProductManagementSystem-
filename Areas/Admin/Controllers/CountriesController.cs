@@ -90,12 +90,12 @@ namespace PMS.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CountryName,CountryCode,Area,DateTime")] Country country)
+        public async Task<IActionResult> Edit(int id, [Bind("CountryId,CountryName,CountryCode,CreatedDateTime,Companies,Cities")] Country country)
         {
-            //if (id != country.CountryId)
-            //{
-            //    return NotFound();
-            //}
+            if (id != country.CountryId)
+            {
+                return NotFound();
+            }
 
             if (ModelState.IsValid)
             {

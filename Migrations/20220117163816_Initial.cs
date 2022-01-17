@@ -175,8 +175,8 @@ namespace PMS.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CityName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ZipCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CountryId = table.Column<int>(type: "int", nullable: true)
+                    CreatedDateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CountryId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -186,7 +186,7 @@ namespace PMS.Migrations
                         column: x => x.CountryId,
                         principalTable: "Countries",
                         principalColumn: "CountryId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -200,19 +200,18 @@ namespace PMS.Migrations
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     NrTelefonit = table.Column<int>(type: "int", nullable: false),
                     NrFiskal = table.Column<long>(type: "bigint", nullable: false),
-                    County = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    City = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Active = table.Column<bool>(type: "bit", nullable: false),
                     dateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CountryId = table.Column<int>(type: "int", nullable: true),
-                    CitiesCityId = table.Column<int>(type: "int", nullable: true)
+                    CountryId = table.Column<int>(type: "int", nullable: false),
+                    CityId = table.Column<int>(type: "int", nullable: false),
+                    Cityd = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Companies", x => x.CompanyId);
                     table.ForeignKey(
-                        name: "FK_Companies_Cities_CitiesCityId",
-                        column: x => x.CitiesCityId,
+                        name: "FK_Companies_Cities_Cityd",
+                        column: x => x.Cityd,
                         principalTable: "Cities",
                         principalColumn: "CityId",
                         onDelete: ReferentialAction.Restrict);
@@ -221,7 +220,7 @@ namespace PMS.Migrations
                         column: x => x.CountryId,
                         principalTable: "Countries",
                         principalColumn: "CountryId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -239,7 +238,6 @@ namespace PMS.Migrations
                     ProductColor = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsAvailable = table.Column<bool>(type: "bit", nullable: false),
                     DateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CountryId = table.Column<int>(type: "int", nullable: false),
                     CityId = table.Column<int>(type: "int", nullable: false),
                     Cityd = table.Column<int>(type: "int", nullable: true),
                     CompanyId = table.Column<int>(type: "int", nullable: false)
@@ -259,11 +257,56 @@ namespace PMS.Migrations
                         principalTable: "Companies",
                         principalColumn: "CompanyId",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Order",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    OrderNo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PhoneNo = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    OrderDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ProductId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Order", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Products_Countries_CountryId",
-                        column: x => x.CountryId,
-                        principalTable: "Countries",
-                        principalColumn: "CountryId",
+                        name: "FK_Order_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "ProductId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "OrderDetails",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    OrderId = table.Column<int>(type: "int", nullable: false),
+                    PorductId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OrderDetails", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_OrderDetails_Order_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Order",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_OrderDetails_Products_PorductId",
+                        column: x => x.PorductId,
+                        principalTable: "Products",
+                        principalColumn: "ProductId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -312,14 +355,29 @@ namespace PMS.Migrations
                 column: "CountryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Companies_CitiesCityId",
+                name: "IX_Companies_Cityd",
                 table: "Companies",
-                column: "CitiesCityId");
+                column: "Cityd");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Companies_CountryId",
                 table: "Companies",
                 column: "CountryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Order_ProductId",
+                table: "Order",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderDetails_OrderId",
+                table: "OrderDetails",
+                column: "OrderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderDetails_PorductId",
+                table: "OrderDetails",
+                column: "PorductId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_Cityd",
@@ -330,11 +388,6 @@ namespace PMS.Migrations
                 name: "IX_Products_CompanyId",
                 table: "Products",
                 column: "CompanyId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Products_CountryId",
-                table: "Products",
-                column: "CountryId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -355,13 +408,19 @@ namespace PMS.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Products");
+                name: "OrderDetails");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Order");
+
+            migrationBuilder.DropTable(
+                name: "Products");
 
             migrationBuilder.DropTable(
                 name: "Companies");

@@ -108,10 +108,10 @@ namespace PMS.Controllers
             }
 
             var product = await _context.Products.FindAsync(id);
-            //if (product == null)
-            //{
-            //    return NotFound();
-            //}
+            if (product == null)
+            {
+                return NotFound();
+            }
             return View(product);
         }
 
@@ -120,12 +120,12 @@ namespace PMS.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,ProductId,Name,ShortDescription,FullDescription,Price,DateTime")] Product product, IFormFile image)
+        public async Task<IActionResult> Edit(int id, [Bind("ProductId,UniqueId,Name,Image,ShortDescription,FullDescription,Price,ProductColor,IsAvailable,DateTime,CityId,CompanyId,")] Product product, IFormFile image)
         {
-            //if (id != product.ProductId)
-            //{
-            //    return NotFound();
-            //}
+            if (id != product.ProductId)
+            {
+                return NotFound();
+            }
 
             if (ModelState.IsValid)
             {

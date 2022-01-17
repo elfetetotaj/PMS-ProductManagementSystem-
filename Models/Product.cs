@@ -1,5 +1,6 @@
 ﻿using PMS.Data;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -22,13 +23,8 @@ namespace PMS.Models
         public string ProductColor { get; set; }
         [Display(Name = "Available")]
         public bool IsAvailable { get; set; }
+        [DataType(DataType.Date)]
         public DateTime? DateTime { get; set; }
-
-
-        [Display(Name ="Country")]
-        public int CountryId { get; set; }
-        [ForeignKey("CountryId")]
-        public virtual Country Country { get; set; }
 
 
         [Display(Name = "City")]
@@ -41,6 +37,8 @@ namespace PMS.Models
         public int CompanyId { get; set; }
         [ForeignKey("CompanyId")]
         public virtual Company Company { get; set; }
+
+        public virtual ICollection<Order> Orders { get; set; }
 
     }
 }

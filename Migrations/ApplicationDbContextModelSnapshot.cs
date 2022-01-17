@@ -258,20 +258,17 @@ namespace PMS.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("CitiesCityId")
+                    b.Property<int>("CityId")
                         .HasColumnType("int");
 
-                    b.Property<string>("City")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("Cityd")
+                        .HasColumnType("int");
 
                     b.Property<string>("CompanyName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("CountryId")
+                    b.Property<int>("CountryId")
                         .HasColumnType("int");
-
-                    b.Property<string>("County")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
@@ -287,7 +284,7 @@ namespace PMS.Migrations
 
                     b.HasKey("CompanyId");
 
-                    b.HasIndex("CitiesCityId");
+                    b.HasIndex("Cityd");
 
                     b.HasIndex("CountryId");
 
@@ -316,6 +313,67 @@ namespace PMS.Migrations
                     b.ToTable("Countries");
                 });
 
+            modelBuilder.Entity("PMS.Models.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("OrderNo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("Order");
+                });
+
+            modelBuilder.Entity("PMS.Models.OrderDetails", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PorductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("PorductId");
+
+                    b.ToTable("OrderDetails");
+                });
+
             modelBuilder.Entity("PMS.Models.Product", b =>
                 {
                     b.Property<int>("ProductId")
@@ -330,9 +388,6 @@ namespace PMS.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("CompanyId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CountryId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("DateTime")
@@ -368,8 +423,6 @@ namespace PMS.Migrations
                     b.HasIndex("Cityd");
 
                     b.HasIndex("CompanyId");
-
-                    b.HasIndex("CountryId");
 
                     b.ToTable("Products");
                 });
@@ -438,47 +491,74 @@ namespace PMS.Migrations
 
             modelBuilder.Entity("PMS.Models.Company", b =>
                 {
-                    b.HasOne("PMS.Data.City", "Cities")
-                        .WithMany("Companies")
-                        .HasForeignKey("CitiesCityId");
-
-                    b.HasOne("PMS.Models.Country", "Country")
-                        .WithMany("Companies")
-                        .HasForeignKey("CountryId");
-
-                    b.Navigation("Cities");
-
-                    b.Navigation("Country");
-                });
-
-            modelBuilder.Entity("PMS.Models.Product", b =>
-                {
                     b.HasOne("PMS.Data.City", "City")
-                        .WithMany()
+                        .WithMany("Companies")
                         .HasForeignKey("Cityd");
 
-                    b.HasOne("PMS.Models.Company", "Company")
-                        .WithMany()
-                        .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("PMS.Models.Country", "Country")
-                        .WithMany()
+                        .WithMany("Companies")
                         .HasForeignKey("CountryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("City");
 
-                    b.Navigation("Company");
-
                     b.Navigation("Country");
+                });
+
+            modelBuilder.Entity("PMS.Models.Order", b =>
+                {
+                    b.HasOne("PMS.Models.Product", null)
+                        .WithMany("Orders")
+                        .HasForeignKey("ProductId");
+                });
+
+            modelBuilder.Entity("PMS.Models.OrderDetails", b =>
+                {
+                    b.HasOne("PMS.Models.Order", "Order")
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PMS.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("PorductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("PMS.Models.Product", b =>
+                {
+                    b.HasOne("PMS.Data.City", "City")
+                        .WithMany("Products")
+                        .HasForeignKey("Cityd");
+
+                    b.HasOne("PMS.Models.Company", "Company")
+                        .WithMany("Products")
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("City");
+
+                    b.Navigation("Company");
                 });
 
             modelBuilder.Entity("PMS.Data.City", b =>
                 {
                     b.Navigation("Companies");
+
+                    b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("PMS.Models.Company", b =>
+                {
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("PMS.Models.Country", b =>
@@ -486,6 +566,16 @@ namespace PMS.Migrations
                     b.Navigation("Cities");
 
                     b.Navigation("Companies");
+                });
+
+            modelBuilder.Entity("PMS.Models.Order", b =>
+                {
+                    b.Navigation("OrderDetails");
+                });
+
+            modelBuilder.Entity("PMS.Models.Product", b =>
+                {
+                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }
