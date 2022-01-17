@@ -30,10 +30,13 @@ namespace PMS.Models
         [ForeignKey("CountryId")]
         public virtual Country Country { get; set; }
 
+
         [Display(Name = "City")]
         public int CityId { get; set; }
         [ForeignKey("Cityd")]
         public virtual City City { get; set; }
+
+
         [Display(Name = "Company")]
         public int CompanyId { get; set; }
         [ForeignKey("CompanyId")]

@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 namespace PMS.Controllers
 {
     [Area("Admin")]
+    //[Authorize(Roles = "Super user")]
     public class ProductsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -51,6 +52,8 @@ namespace PMS.Controllers
         public IActionResult Create()
         {
             ViewData["CountryId"] = new SelectList(_context.Countries.ToList(), "CountryId", "CountryName");
+            ViewData["CityId"] = new SelectList(_context.Cities.ToList(), "CityId", "CityName");
+            ViewData["CompanyId"] = new SelectList(_context.Companies.ToList(), "CompanyId", "CompanyName");
             return View();
         }
 
@@ -69,6 +72,8 @@ namespace PMS.Controllers
                     ViewBag.messagee = "This product already exist";
                     //TempData["save"] = "Product has been save successfully";
                     ViewData["CountryId"] = new SelectList(_context.Countries.ToList(), "CountryId", "CountryName");
+                    ViewData["CityId"] = new SelectList(_context.Cities.ToList(), "CityId", "CityName");
+                    ViewData["CompanyId"] = new SelectList(_context.Companies.ToList(), "CompanyId", "CompanyName");
                     return View(product);
                 }
 
@@ -94,16 +99,19 @@ namespace PMS.Controllers
         // GET: Products/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            ViewData["CountryId"] = new SelectList(_context.Countries.ToList(), "CountryId", "CountryName");
+            ViewData["CityId"] = new SelectList(_context.Cities.ToList(), "CityId", "CityName");
+            ViewData["CompanyId"] = new SelectList(_context.Companies.ToList(), "CompanyId", "CompanyName");
             if (id == null)
             {
                 return NotFound();
             }
 
             var product = await _context.Products.FindAsync(id);
-            if (product == null)
-            {
-                return NotFound();
-            }
+            //if (product == null)
+            //{
+            //    return NotFound();
+            //}
             return View(product);
         }
 
@@ -114,10 +122,10 @@ namespace PMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,ProductId,Name,ShortDescription,FullDescription,Price,DateTime")] Product product, IFormFile image)
         {
-            if (id != product.ProductId)
-            {
-                return NotFound();
-            }
+            //if (id != product.ProductId)
+            //{
+            //    return NotFound();
+            //}
 
             if (ModelState.IsValid)
             {
