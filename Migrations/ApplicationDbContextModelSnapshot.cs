@@ -258,10 +258,7 @@ namespace PMS.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("CityId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Cityd")
+                    b.Property<int?>("CityId")
                         .HasColumnType("int");
 
                     b.Property<string>("CompanyName")
@@ -284,7 +281,7 @@ namespace PMS.Migrations
 
                     b.HasKey("CompanyId");
 
-                    b.HasIndex("Cityd");
+                    b.HasIndex("CityId");
 
                     b.HasIndex("CountryId");
 
@@ -491,17 +488,15 @@ namespace PMS.Migrations
 
             modelBuilder.Entity("PMS.Models.Company", b =>
                 {
-                    b.HasOne("PMS.Data.City", "City")
+                    b.HasOne("PMS.Data.City", null)
                         .WithMany("Companies")
-                        .HasForeignKey("Cityd");
+                        .HasForeignKey("CityId");
 
                     b.HasOne("PMS.Models.Country", "Country")
                         .WithMany("Companies")
                         .HasForeignKey("CountryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("City");
 
                     b.Navigation("Country");
                 });

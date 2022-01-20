@@ -30,6 +30,18 @@ namespace PMS.Controllers
             return View(await _context.Products.ToListAsync());
         }
 
+       [HttpPost]
+        public IActionResult Index(decimal? lowAmount, decimal? largeAmount)
+        {
+            var products = _context.Products.Include(c => c.Company).Include(c => c.City)
+                .Where(c => c.Price >= lowAmount && c.Price <= largeAmount).ToList();
+            if (lowAmount == null || largeAmount == null)
+            {
+                products = _context.Products.Include(c => c.Company).Include(c => c.City).ToList();
+            }
+            return View(products);
+        }
+
         // GET: Products/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -62,7 +74,7 @@ namespace PMS.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ProductId,Name,ShortDescription,FullDescription,Price,DateTime")] Product product, IFormFile image)
+        public async Task<IActionResult> Create([Bind("Id,ProductId,Name,ShortDescription,Image,FullDescription,Price,DateTime")] Product product, IFormFile image)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +98,7 @@ namespace PMS.Controllers
 
                 if (image == null)
                 {
-                    product.Image = "Images/noimage.PNG";
+                    product.Image = "Images/noimage.png";
                 }
 
                 _context.Add(product);

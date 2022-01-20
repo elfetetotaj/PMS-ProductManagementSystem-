@@ -25,10 +25,10 @@ namespace PMS.Models
         public virtual Country Country { get; set; }
 
 
-        [Display(Name = "City")]
+        /*[Display(Name = "City")]
         public int CityId { get; set; }
         [ForeignKey("Cityd")]
-        public virtual City City { get; set; }
+        public virtual City City { get; set; }*/
         public virtual ICollection<Product> Products { get; set; }
     }
 }
