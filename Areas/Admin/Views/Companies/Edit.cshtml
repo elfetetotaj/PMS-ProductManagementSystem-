@@ -2,73 +2,94 @@
 
 @{
     ViewData["Title"] = "Edit";
-}
+}<br />
 
-<h1>Edit</h1>
+<h2 class="text-info">Edit Company</h2>
+<form asp-action="Edit" method="post">
+    <div class="p-4 rounded border">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-<h4>Company</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="CompanyId" />
-            <div class="form-group">
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="CompanyId" class="control-label"></label>
+            </div>
+            <div class="col-5">
+                <input asp-for="CompanyId" readonly="readonly" class="form-control" />
+            </div>
+            <span asp-validation-for="CompanyId" class="text-danger"></span>
+        </div>
+        <div class="form-group row">
+            <div class="col-2">
                 <label asp-for="CompanyName" class="control-label"></label>
+            </div>
+            <div class="col-5">
                 <input asp-for="CompanyName" class="form-control" />
-                <span asp-validation-for="CompanyName" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <span asp-validation-for="CompanyName" class="text-danger"></span>
+        </div>
+        <div class="form-group row">
+            <div class="col-2">
                 <label asp-for="Address" class="control-label"></label>
+            </div>
+            <div class="col-5">
                 <input asp-for="Address" class="form-control" />
-                <span asp-validation-for="Address" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <span asp-validation-for="Address" class="text-danger"></span>
+        </div>
+        <div class="form-group row">
+            <div class="col-2">
                 <label asp-for="Email" class="control-label"></label>
+            </div>
+            <div class="col-5">
                 <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <div class="form-group row">
+            <div class="col-2">
                 <label asp-for="NrTelefonit" class="control-label"></label>
+            </div>
+            <div class="col-5">
                 <input asp-for="NrTelefonit" class="form-control" />
-                <span asp-validation-for="NrTelefonit" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="NrFiskal" class="control-label"></label>
-                <input asp-for="NrFiskal" class="form-control" />
-                <span asp-validation-for="NrFiskal" class="text-danger"></span>
-            </div>
-            @*<div class="form-group">
-                <label asp-for="County" class="control-label"></label>
-                <input asp-for="County" class="form-control" />
-                <span asp-validation-for="County" class="text-danger"></span>
-            </div>*@
-            @*<div class="form-group">
-                <label asp-for="City" class="control-label"></label>
-                <input asp-for="City" class="form-control" />
-                <span asp-validation-for="City" class="text-danger"></span>
-            </div>*@
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Active" /> @Html.DisplayNameFor(model => model.Active)
-                </label>
-            </div>
-            <div class="form-group">
+            <span asp-validation-for="NrTelefonit" class="text-danger"></span>
+        </div>
+        <div class="form-group row">
+            <div class="col-2">
                 <label asp-for="dateTime" class="control-label"></label>
+            </div>
+            <div class="col-5">
                 <input asp-for="dateTime" class="form-control" />
-                <span asp-validation-for="dateTime" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+            <span asp-validation-for="dateTime" class="text-danger"></span>
+        </div>
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="NrFiskal" class="control-label"></label>
             </div>
-        </form>
+            <div class="col-5">
+                <input asp-for="NrFiskal" class="form-control" />
+            </div>
+            <span asp-validation-for="NrFiskal" class="text-danger"></span>
+        </div>
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="Country" class="control-label"></label>
+            </div>
+            <div class="col-5">
+               <select asp-for="CountryId" asp-items="ViewBag.CountryId" class="form-control"></select>
+            </div>
+            <span asp-validation-for="Country" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Edit" class="btn btn-primary" />
+            <a asp-action="Index" class="btn btn-success">Back to List</a>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
+</form>
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
 }

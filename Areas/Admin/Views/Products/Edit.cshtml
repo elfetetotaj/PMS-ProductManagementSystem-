@@ -5,116 +5,111 @@
 }
 <br />
 
-<h2 class="text-info">Edit Product</h2>
-<form asp-action="Edit" method="post">
+<h2 class="text-info">Edit New Product</h2>
+<form asp-action="Edit" method="post" enctype="multipart/form-data">
     <div class="p-4 rounded border">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div asp-validation-summary="ModelOnly" class="text-danger">
+            <input type="hidden" asp-for="ProductId" />
+        </div>
+        <div class="col-8">
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="UniqueId"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="UniqueId" class="form-control" />
+                </div>
+                <span asp-validation-for="UniqueId" class="text-danger"></span>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="Name"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="Name" class="form-control" />
+                </div>
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="ShortDescription"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="ShortDescription" class="form-control" />
+                </div>
+                <span asp-validation-for="ShortDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="FullDescription"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="FullDescription" class="form-control" />
+                </div>
+                <span asp-validation-for="FullDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="Price"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="Price" class="form-control" />
+                </div>
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="Image"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="Image" class="form-control" type="file" />
+                </div>
+                <span asp-validation-for="Image" class="text-danger"></span>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="ProductColor"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="ProductColor" class="form-control" />
+                </div>
+                <span asp-validation-for="ProductColor" class="text-danger"></span>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="IsAvailable"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="IsAvailable" class="" type="checkbox" />
+                </div>
+                <span asp-validation-for="IsAvailable" class="text-danger"></span>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="CompanyId"></label>
+                </div>
+                <div class="col-8">
+                    <select asp-for="CompanyId" class="form-control" asp-items="ViewBag.CompanyId"></select>
+                </div>
+                <span asp-validation-for="CompanyId" class="text-danger"></span>
+            </div>
 
-        <div class="form-group row">
-            <div class="col-2">
-                <label asp-for="ProductId" class="control-label"></label>
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary" value="Edit" />
+                <a asp-action="Index" class="btn btn-success">Back to List</a>
             </div>
-            <div class="col-5">
-                <input asp-for="ProductId" class="form-control" />
-            </div>
-            <span asp-validation-for="ProductId" class="text-danger"></span>
         </div>
-        <div class="form-group row">
-            <div class="col-2">
-                <label asp-for="UniqueId" class="control-label"></label>
-            </div>
-            <div class="col-5">
-                <input asp-for="UniqueId" class="form-control" />
-            </div>
-            <span asp-validation-for="UniqueId" class="text-danger"></span>
-        </div>
-        <div class="form-group row">
-            <div class="col-2">
-                <label asp-for="Name" class="control-label"></label>
-            </div>
-            <div class="col-5">
-                <input asp-for="Name" class="form-control" />
-            </div>
-            <span asp-validation-for="Name" class="text-danger"></span>
-        </div>
-
-        <div class="form-group row">
-            <div class="col-4">
-                <label asp-for="Image"></label>
-            </div>
-            <div class="col-8">
-                <input asp-for="Image" class="form-control" type="file" />
-            </div>
-            <span asp-validation-for="Image" class="text-danger"></span>
-        </div>
-
-
-        <div class="form-group row">
-            <div class="col-2">
-                <label asp-for="ShortDescription" class="control-label"></label>
-            </div>
-            <div class="col-5">
-                <input asp-for="ShortDescription" class="form-control" />
-            </div>
-            <span asp-validation-for="ShortDescription" class="text-danger"></span>
-        </div>
-        <div class="form-group row">
-            <div class="col-2">
-                <label asp-for="FullDescription" class="control-label"></label>
-            </div>
-            <div class="col-5">
-                <input asp-for="FullDescription" class="form-control" />
-            </div>
-            <span asp-validation-for="FullDescription" class="text-danger"></span>
-        </div>
-        <div class="form-group row">
-            <div class="col-2">
-                <label asp-for="Price" class="control-label"></label>
-            </div>
-            <div class="col-5">
-                <input asp-for="Price" class="form-control" />
-            </div>
-            <span asp-validation-for="Price" class="text-danger"></span>
-        </div>
-        <div class="form-group row">
-            <div class="col-2">
-                <label asp-for="ProductColor" class="control-label"></label>
-            </div>
-            <div class="col-5">
-                <input asp-for="ProductColor" class="form-control" />
-            </div>
-            <span asp-validation-for="ProductColor" class="text-danger"></span>
-        </div>
-
-        <div class="form-group row">
-            <div class="col-4">
-                <label asp-for="IsAvailable"></label>
-            </div>
-            <div class="col-8">
-                <input asp-for="IsAvailable" class="" type="checkbox" />
-            </div>
-            <span asp-validation-for="IsAvailable" class="text-danger"></span>
-        </div>
-
-
-        @*SelectList---- Dropdown*@
-
-        <div class="form-group">
-            <select asp-for="CityId" asp-items="ViewBag.CityId" class="form-control"></select>
-        </div>
-        <div class="form-group">
-            <select asp-for="CompanyId" asp-items="ViewBag.CompanyId" class="form-control"></select>
-        </div>
-
-
-        <div class="form-group">
-            <input type="submit" value="Edit" class="btn btn-primary" />
-            <a asp-action="Index" class="btn btn-success">Back to List</a>
+        <div class="col-1"></div>
+        <div class="col-3">
+            <img src="~/@Model.Image" width="100%" height="250px" style="border-radius: 5px;border: 1px solid #efefef" />
         </div>
     </div>
 </form>
-@section Scripts {
+
+@section Scripts{
     @{
     await Html.RenderPartialAsync("_ValidationScriptsPartial");
 }
 }
+
+

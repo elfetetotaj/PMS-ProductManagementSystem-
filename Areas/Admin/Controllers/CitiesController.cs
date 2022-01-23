@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PMS.Data;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace PMS.Controllers
+namespace PMS.Areas.Admin.Views
 {
+    [Area("Admin")]
+    //[Authorize(Roles = "Super user")]
     public class CitiesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -18,13 +18,14 @@ namespace PMS.Controllers
             _context = context;
         }
 
-        // GET: Cities
+        // GET: Admin/Cities
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Cities.ToListAsync());
+            var applicationDbContext = _context.Cities.Include(c => c.Country);
+            return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Cities/Details/5
+        // GET: Admin/Cities/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,6 +34,7 @@ namespace PMS.Controllers
             }
 
             var city = await _context.Cities
+                .Include(c => c.Country)
                 .FirstOrDefaultAsync(m => m.CityId == id);
             if (city == null)
             {
@@ -42,29 +44,32 @@ namespace PMS.Controllers
             return View(city);
         }
 
-        // GET: Cities/Create
+        // GET: Admin/Cities/Create
         public IActionResult Create()
         {
+            ViewData["CountryId"] = new SelectList(_context.Countries, "CountryId", "CountryName");
             return View();
         }
 
-        // POST: Cities/Create
+        // POST: Admin/Cities/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CityName,ZipCode,DateTime")] City city)
+        public async Task<IActionResult> Create([Bind("CityId,CityName,ZipCode,CreatedDateTime,CountryId")] City city)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(city);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                TempData["save"] = "City has been saved";
+                return RedirectToAction(nameof(Index));  
             }
+            ViewData["CountryId"] = new SelectList(_context.Countries, "CountryId", "CountryName", city.CountryId);
             return View(city);
         }
 
-        // GET: Cities/Edit/5
+        // GET: Admin/Cities/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -77,15 +82,16 @@ namespace PMS.Controllers
             {
                 return NotFound();
             }
+            ViewData["CountryId"] = new SelectList(_context.Countries, "CountryId", "CountryName", city.CountryId);
             return View(city);
         }
 
-        // POST: Cities/Edit/5
+        // POST: Admin/Cities/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CityName,ZipCode,DateTime")] City city)
+        public async Task<IActionResult> Edit(int id, [Bind("CityId,CityName,ZipCode,CreatedDateTime,CountryId")] City city)
         {
             if (id != city.CityId)
             {
@@ -98,6 +104,7 @@ namespace PMS.Controllers
                 {
                     _context.Update(city);
                     await _context.SaveChangesAsync();
+                    TempData["edit"] = "City has been updated";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -112,10 +119,11 @@ namespace PMS.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["CountryId"] = new SelectList(_context.Countries, "CountryId", "CountryName", city.CountryId);
             return View(city);
         }
 
-        // GET: Cities/Delete/5
+        // GET: Admin/Cities/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,6 +132,7 @@ namespace PMS.Controllers
             }
 
             var city = await _context.Cities
+                .Include(c => c.Country)
                 .FirstOrDefaultAsync(m => m.CityId == id);
             if (city == null)
             {
@@ -133,7 +142,7 @@ namespace PMS.Controllers
             return View(city);
         }
 
-        // POST: Cities/Delete/5
+        // POST: Admin/Cities/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -141,6 +150,7 @@ namespace PMS.Controllers
             var city = await _context.Cities.FindAsync(id);
             _context.Cities.Remove(city);
             await _context.SaveChangesAsync();
+            TempData["delete"] = "City has been deleted";
             return RedirectToAction(nameof(Index));
         }
 

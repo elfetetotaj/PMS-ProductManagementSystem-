@@ -3,55 +3,121 @@
 @{
     ViewData["Title"] = "Delete";
 }
+<br />
 
-<h1>Delete</h1>
+<h2 class="text-info">Delete Product</h2>
+<form asp-action="Delete" enctype="multipart/form-data">
+    <div class="p-4 rounded border">
+        <div asp-validation-summary="ModelOnly" class="text-danger">
+        </div>
+        <div class="col-8">
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="ProductId"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="ProductId" readonly="readonly" class="form-control" />
+                </div>
+                <span asp-validation-for="ProductId" class="text-danger"></span>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="UniqueId"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="UniqueId" readonly="readonly" class="form-control" />
+                </div>
+                <span asp-validation-for="UniqueId" class="text-danger"></span>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="Name"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="Name" readonly="readonly" class="form-control" />
+                </div>
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="ShortDescription"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="ShortDescription" readonly="readonly" class="form-control" />
+                </div>
+                <span asp-validation-for="ShortDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="FullDescription"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="FullDescription" readonly="readonly" class="form-control" />
+                </div>
+                <span asp-validation-for="FullDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="Price"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="Price" readonly="readonly" class="form-control" />
+                </div>
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            @*<div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="Image"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="Image" class="form-control" type="file" />
+                </div>
+                <span asp-validation-for="Image" class="text-danger"></span>
+            </div>*@
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="ProductColor"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="ProductColor" readonly="readonly" class="form-control" />
+                </div>
+                <span asp-validation-for="ProductColor" class="text-danger"></span>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="IsAvailable"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="IsAvailable" readonly="readonly" onclick="false" class="" type="checkbox" />
+                </div>
+                <span asp-validation-for="IsAvailable" class="text-danger"></span>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="CompanyId"></label>
+                </div>
+                <div class="col-8">
+                    @*<select asp-for="CompanyId" class="form-control" asp-items="ViewBag.CompanyId"></select>*@
+                    <input asp-for="CompanyId" readonly="readonly" class="form-control" />
+                </div>
+                <span asp-validation-for="CompanyId" class="text-danger"></span>
+            </div>
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Product</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ProductId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ProductId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ShortDescription)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ShortDescription)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FullDescription)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FullDescription)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DateTime)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DateTime)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="ProductId" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
-</div>
+            <div class="form-group">
+                <input type="submit" value="Delete" class="btn btn-danger" />
+                <a asp-action="Index" class="btn btn-success">Back to List</a>
+            </div>
+        </div>
+        <div class="col-1"></div>
+        <div class="col-3">
+            <img src="~/@Model.Image" width="100%" height="250px" style="border-radius: 5px;border: 1px solid #efefef" />
+        </div>
+    </div>
+</form>
+
+@section Scripts{
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+}
+

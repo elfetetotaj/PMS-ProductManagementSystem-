@@ -1,42 +1,42 @@
-﻿@model PMS.Models.Country
+﻿@model PMS.Data.City
 
 @{
     ViewData["Title"] = "Delete";
 }
 <br />
 
-<h2 class="text-info">Delete Countries</h2>
+<h2 class="text-info">Delete City</h2>
 <form asp-action="Delete">
     <div class="p-4 rounded border">
-        <input type="hidden" asp-for="CountryId"/>
+        <input type="hidden" asp-for="CityId"/>
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
         <div class="form-group row">
             <div class="col-2">
-                <label asp-for="CountryId" class="control-label"></label>
+                <label asp-for="CityId" class="control-label"></label>
             </div>
             <div class="col-5">
-                <input asp-for="CountryId" readonly="readonly" class="form-control" />
+                <input asp-for="CityId" readonly="readonly" class="form-control" />
             </div>
-            <span asp-validation-for="CountryId" class="text-danger"></span>
+            <span asp-validation-for="CityId" class="text-danger"></span>
         </div>
         <div class="form-group row">
             <div class="col-2">
-                <label asp-for="CountryName" class="control-label"></label>
+                <label asp-for="CityName" class="control-label"></label>
             </div>
             <div class="col-5">
-                <input asp-for="CountryName" readonly="readonly" class="form-control" />
+                <input asp-for="CityName" readonly="readonly" class="form-control" />
             </div>
-            <span asp-validation-for="CountryName" class="text-danger"></span>
+            <span asp-validation-for="CityName" class="text-danger"></span>
         </div>
         <div class="form-group row">
             <div class="col-2">
-                <label asp-for="CountryCode" class="control-label"></label>
+                <label asp-for="ZipCode" class="control-label"></label>
             </div>
             <div class="col-5">
-                <input asp-for="CountryCode" readonly="readonly" class="form-control" />
+                <input asp-for="ZipCode" readonly="readonly" class="form-control" />
             </div>
-            <span asp-validation-for="CountryCode" class="text-danger"></span>
+            <span asp-validation-for="ZipCode" class="text-danger"></span>
         </div>
         <div class="form-group">
             <input type="submit" class="btn  btn-danger" value="Delete"/>

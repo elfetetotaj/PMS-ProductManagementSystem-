@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PMS.Data;
 using PMS.Models;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace PMS.Controllers
 {
@@ -57,7 +53,7 @@ namespace PMS.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CountryName,CountryCode,Area,DateTime")] Country country)
+        public async Task<IActionResult> Create([Bind("CountryId,CountryName,CountryCode,DateTime")] Country country)
         {
             if (ModelState.IsValid)
             {

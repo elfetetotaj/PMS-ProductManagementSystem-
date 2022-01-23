@@ -2,74 +2,96 @@
 
 @{
     ViewData["Title"] = "Delete";
+}<br />
+
+<h2 class="text-info">Delete Company</h2>
+<form asp-action="Delete">
+    <div class="p-4 rounded border">
+        <input type="hidden" asp-for="CompanyId"/>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="CompanyId" class="control-label"></label>
+            </div>
+            <div class="col-5">
+                <input asp-for="CompanyId" readonly="readonly" class="form-control" />
+            </div>
+            <span asp-validation-for="CompanyId" class="text-danger"></span>
+        </div>
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="CompanyName" class="control-label"></label>
+            </div>
+            <div class="col-5">
+                <input asp-for="CompanyName" readonly="readonly" class="form-control" />
+            </div>
+            <span asp-validation-for="CompanyName" class="text-danger"></span>
+        </div>
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="Address" class="control-label"></label>
+            </div>
+            <div class="col-5">
+                <input asp-for="Address" readonly="readonly" class="form-control" />
+            </div>
+            <span asp-validation-for="Address" class="text-danger"></span>
+        </div>
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="Email" class="control-label"></label>
+            </div>
+            <div class="col-5">
+                <input asp-for="Email" readonly="readonly" class="form-control" />
+            </div>
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="NrTelefonit" class="control-label"></label>
+            </div>
+            <div class="col-5">
+                <input asp-for="NrTelefonit" readonly="readonly" class="form-control" />
+            </div>
+            <span asp-validation-for="NrTelefonit" class="text-danger"></span>
+        </div>
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="dateTime" class="control-label"></label>
+            </div>
+            <div class="col-5">
+                <input asp-for="dateTime" readonly="readonly" class="form-control" />
+            </div>
+            <span asp-validation-for="dateTime" class="text-danger"></span>
+        </div>
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="NrFiskal" class="control-label"></label>
+            </div>
+            <div class="col-5">
+                <input asp-for="NrFiskal" readonly="readonly" class="form-control" />
+            </div>
+            <span asp-validation-for="NrFiskal" class="text-danger"></span>
+        </div>
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="Country" class="control-label"></label>
+            </div>
+            <div class="col-5">
+               @*<select asp-for="CountryId" asp-items="ViewBag.CountryId" class="form-control"></select>*@
+                 <input asp-for="CountryId" readonly="readonly" class="form-control" />
+            </div>
+            <span asp-validation-for="Country" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Delete" class="btn btn-danger" />
+            <a asp-action="Index" class="btn btn-success">Back to List</a>
+        </div>
+    </div>
+</form>
+@section Scripts {
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
 }
-
-<h1>Delete</h1>
-
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Company</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CompanyName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CompanyName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Address)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Address)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NrTelefonit)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NrTelefonit)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NrFiskal)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NrFiskal)
-        </dd>
-       @* <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.County)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.County)
-        </dd>*@
-       @* <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.City)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.City)
-        </dd>*@
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Active)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Active)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.dateTime)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.dateTime)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="CompanyId" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
-</div>
+}
