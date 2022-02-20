@@ -9,10 +9,12 @@ using System.Diagnostics;
 using System.Linq;
 using PMS.Utility;
 using X.PagedList;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PMS.Controllers
 {
     [Area("Customer")]
+    [AllowAnonymous]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -23,7 +25,6 @@ namespace PMS.Controllers
             _context = context;
             _logger = logger;
         }
-
         public IActionResult Index(int? page)
         {
             return View(_context.Products.Include(c => c.Company).ToList().ToPagedList(page ?? 1, 9));
@@ -40,6 +41,8 @@ namespace PMS.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
+        //GET product detail action method
+
         public ActionResult Detail(int? id)
         {
 
@@ -48,7 +51,7 @@ namespace PMS.Controllers
                 return NotFound();
             }
 
-            var product = _context.Products.Include(c => c.ProductId).FirstOrDefault(c => c.ProductId == id);
+            var product = _context.Products.Include(c => c.Company).FirstOrDefault(c => c.ProductId == id);
             if (product == null)
             {
                 return NotFound();
@@ -67,7 +70,7 @@ namespace PMS.Controllers
                 return NotFound();
             }
 
-            var product = _context.Products.Include(c => c.ProductId).FirstOrDefault(c => c.ProductId == id);
+            var product = _context.Products.Include(c => c.Company).FirstOrDefault(c => c.ProductId == id);
             if (product == null)
             {
                 return NotFound();

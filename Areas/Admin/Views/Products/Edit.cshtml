@@ -8,10 +8,20 @@
 <h2 class="text-info">Edit New Product</h2>
 <form asp-action="Edit" method="post" enctype="multipart/form-data">
     <div class="p-4 rounded border">
-        <div asp-validation-summary="ModelOnly" class="text-danger">
+        @*<div asp-validation-summary="ModelOnly" class="text-danger">
             <input type="hidden" asp-for="ProductId" />
-        </div>
+            </div>*@
+
         <div class="col-8">
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="ProductId" class="control-label"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="ProductId" readonly="readonly" class="form-control" />
+                </div>
+                <span asp-validation-for="ProductId" class="text-danger"></span>
+            </div>
             <div class="form-group row">
                 <div class="col-4">
                     <label asp-for="UniqueId"></label>

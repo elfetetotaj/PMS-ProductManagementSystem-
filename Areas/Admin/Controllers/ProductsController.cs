@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,10 +6,14 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PMS.Data;
 using PMS.Models;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace PMS.Areas.Admin.Views
 {
     [Area("Admin")]
+    [Authorize(Roles = "Super user")]
     public class ProductsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -79,21 +79,21 @@ namespace PMS.Areas.Admin.Views
             if (ModelState.IsValid)
             {
                 var searchProduct = _context.Products.FirstOrDefault(p => p.Name == product.Name);
-                if(searchProduct != null)
+                if (searchProduct != null)
                 {
                     ViewBag.message = "This product already exist";
                     ViewData["CompanyId"] = new SelectList(_context.Companies.ToList(), "CompanyId", "CompanyName");
                     return View(product);
                 }
 
-                if(image != null)
+                if (image != null)
                 {
                     var name = Path.Combine(_hostingEnvironment.WebRootPath + "/Images", Path.GetFileName(image.FileName));
                     await image.CopyToAsync(new FileStream(name, FileMode.Create));
                     product.Image = "Images/" + image.FileName;
                 }
 
-                if(image == null)
+                if (image == null)
                 {
                     product.Image = "Image/noimage.png";
                 }
@@ -129,20 +129,25 @@ namespace PMS.Areas.Admin.Views
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProductId,UniqueId,Name,Image,ShortDescription,FullDescription,Price,ProductColor,IsAvailable,DateTime,CityId,CompanyId")] Product product, IFormFile image)
+        public async Task<IActionResult> Edit (int id, [Bind("ProductId,UniqueId,Name,Image,ShortDescription,FullDescription,Price,ProductColor,IsAvailable,DateTime,CityId,CompanyId")] Product product, IFormFile image)
         {
+            if (id != product.ProductId)
+            {
+                return NotFound();
+            }
+
             if (ModelState.IsValid)
             {
                 try
                 {
-                    if(image != null)
+                    if (image != null)
                     {
                         var name = Path.Combine(_hostingEnvironment.WebRootPath + "/Images", Path.GetFileName(image.FileName));
                         await image.CopyToAsync(new FileStream(name, FileMode.Create));
                         product.Image = "Images/" + image.FileName;
                     }
 
-                    if(image == null)
+                    if (image == null)
                     {
                         product.Image = "Images/noimage.png";
                     }

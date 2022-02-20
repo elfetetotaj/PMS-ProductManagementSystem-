@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PMS.Data;
 using PMS.Models;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 namespace PMS.Controllers
 {
     [Area("Admin")]
-    //[Authorize(Roles = "Super user")]
+    [Authorize(Roles = "Super user")]
     public class CountriesController : Controller
     {
         private readonly ApplicationDbContext _context;

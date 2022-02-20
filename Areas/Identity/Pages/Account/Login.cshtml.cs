@@ -2,18 +2,18 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using PMS.Areas.Admin.Models;
-using PMS.Data;
 using PMS.Models;
-
+using Microsoft.AspNetCore.Http;
+using PMS.Data;
 
 namespace PMS.Areas.Identity.Pages.Account
 {
@@ -24,9 +24,9 @@ namespace PMS.Areas.Identity.Pages.Account
         private readonly ILogger<LoginModel> _logger;
         UserManager<IdentityUser> _userManager;
         private ApplicationDbContext _db;
-        
 
-        public LoginModel(SignInManager<IdentityUser> signInManager, ILogger<LoginModel> logger, UserManager<IdentityUser> userManager,ApplicationDbContext db)
+
+        public LoginModel(SignInManager<IdentityUser> signInManager, ILogger<LoginModel> logger, UserManager<IdentityUser> userManager, ApplicationDbContext db)
         {
             _signInManager = signInManager;
             _userManager = userManager;
@@ -88,19 +88,19 @@ namespace PMS.Areas.Identity.Pages.Account
                 {
                     var userInfo = _db.ApplicationUsers.FirstOrDefault(c => c.UserName.ToLower() == Input.Email.ToLower());
                     var roleInfo = (from ur in _db.UserRoles
-                        join r in _db.Roles on ur.RoleId equals r.Id
-                        where ur.UserId == userInfo.Id
-                        select new SessionUserVm()
-                        {
-                            UserName = Input.Email,
-                            RoleName = r.Name
-                        }).FirstOrDefault();
-                    if(roleInfo != null)
+                                    join r in _db.Roles on ur.RoleId equals r.Id
+                                    where ur.UserId == userInfo.Id
+                                    select new SessionUserVm()
+                                    {
+                                        UserName = Input.Email,
+                                        RoleName = r.Name
+                                    }).FirstOrDefault();
+                    if (roleInfo != null)
                     {
                         HttpContext.Session.SetString("roleName", roleInfo.RoleName);
                     }
-                       _logger.LogInformation("User logged in.");
-                   return LocalRedirect(returnUrl);
+                    _logger.LogInformation("User logged in.");
+                    return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
                 {

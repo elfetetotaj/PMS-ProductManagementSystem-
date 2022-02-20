@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PMS.Data;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 namespace PMS.Areas.Admin.Views
 {
     [Area("Admin")]
+    [Authorize(Roles = "Super user")]
     public class CompaniesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -62,7 +64,7 @@ namespace PMS.Areas.Admin.Views
             {
                 _context.Add(company);
                 await _context.SaveChangesAsync();
-                TempData["save"] = "City has been saved";
+                TempData["save"] = "Company has been saved";
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CountryId"] = new SelectList(_context.Countries, "CountryId", "CountryName", company.CountryId);
@@ -104,7 +106,7 @@ namespace PMS.Areas.Admin.Views
                 {
                     _context.Update(company);
                     await _context.SaveChangesAsync();
-                    TempData["edit"] = "City has been updated";
+                    TempData["edit"] = "Company has been updated";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -150,7 +152,7 @@ namespace PMS.Areas.Admin.Views
             var company = await _context.Companies.FindAsync(id);
             _context.Companies.Remove(company);
             await _context.SaveChangesAsync();
-            TempData["delete"] = "City has been deleted";
+            TempData["delete"] = "Company has been deleted";
             return RedirectToAction(nameof(Index));
         }
 

@@ -1,9 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -11,9 +9,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PMS.Data;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace PMS
 {
@@ -45,19 +40,18 @@ namespace PMS
                 options.Cookie.IsEssential = true;
             });
 
+            services.AddMvc();
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddDefaultUI()
+                .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
-
-            /*services.AddIdentity<IdentityUser, IdentityRole>()
-                .AddDefaultUI(UIFrameworkAttribute))
-                .AddEntityFrameworkStores<ApplicationDbContext>();*/
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
         }
@@ -102,6 +96,7 @@ namespace PMS
                   name: "areas",
                   pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}"
                 );
+                endpoints.MapRazorPages();
             });
         }
     }

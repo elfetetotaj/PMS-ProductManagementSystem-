@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PMS.Data;
 using PMS.Models;
 using PMS.Utility;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 namespace PMS.Areas.Customer.Controllers
 {
     [Area("Customer")]
+    [AllowAnonymous]
     public class OrderController : Controller
     {
         private ApplicationDbContext _context;

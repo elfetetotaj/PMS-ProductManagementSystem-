@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PMS.Data;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 namespace PMS.Areas.Admin.Views
 {
     [Area("Admin")]
-    //[Authorize(Roles = "Super user")]
+    [Authorize(Roles = "Super user")]
     public class CitiesController : Controller
     {
         private readonly ApplicationDbContext _context;

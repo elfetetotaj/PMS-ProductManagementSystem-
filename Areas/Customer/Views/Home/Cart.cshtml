@@ -14,7 +14,7 @@
             <th>Image</th>
             <th>Name</th>
             <th>Price</th>
-            <th>Product Type</th>
+            <th>ShortDescription</th>
             <th>Color</th>
             <th></th>
         </tr>
@@ -24,11 +24,11 @@
         {
             <tr>
                 <td>
-                    <img src="~/@item.Image" width="200px" height="150px"/>
+                    <img src="~/@item.Image" width="220px" height="200px" style="margin-left: 50px;"/>
                 </td>
                 <td>@item.Name</td>
                 <td>@item.Price</td>
-                <td>@item.Company</td>
+                <td>@item.ShortDescription</td>
                 <td>@item.ProductColor</td>
                 <td>
                     <a asp-area="Customer" asp-action="Remove" asp-controller="Home" asp-route-id="@item.ProductId" class="btn btn-danger">
@@ -47,6 +47,7 @@
     <div class="col-6 text-right">
         <h3>Total Amount</h3>
         <h3>Grant Total : @Model.Sum(c=>c.Price) </h3>
+        <br/>
         <a asp-area="Customer" asp-action="Checkout" asp-controller="Order" class="btn btn-info">Process to Checkout</a>
     </div>
 </div>

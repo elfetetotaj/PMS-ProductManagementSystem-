@@ -22,18 +22,43 @@
 <form asp-action="Detail" method="post" enctype="multipart/form-data">
     <div class="p-4 rounded border row">
         <div asp-validation-summary="ModelOnly" class="text-danger">
-
         </div>
         <div class="col-8">
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="UniqueId"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="UniqueId" readonly="readonly" class="form-control" />
+                </div>
+                <span asp-validation-for="UniqueId" class="text-danger"></span>
+            </div>
             <div class="form-group row">
                 <div class="col-4">
                     <label asp-for="Name"></label>
                 </div>
                 <div class="col-8">
-                    <input type="hidden" asp-for="ProductId" />
                     <input asp-for="Name" readonly="readonly" class="form-control" />
                 </div>
                 <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="ShortDescription"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="ShortDescription" readonly="readonly" class="form-control" />
+                </div>
+                <span asp-validation-for="ShortDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="FullDescription"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="FullDescription" readonly="readonly" class="form-control" />
+                </div>
+                <span asp-validation-for="FullDescription" class="text-danger"></span>
             </div>
             <div class="form-group row">
                 <div class="col-4">
@@ -45,37 +70,35 @@
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
             @*<div class="form-group row">
-                    <div class="col-4">
-                        <label asp-for="Image"></label>
-                    </div>
-                    <div class="col-8">
-                        <input asp-for="Image" class="form-control" type="file" />
-                    </div>
-                    <span asp-validation-for="Image" class="text-danger"></span>
+                <div class="col-4">
+                <label asp-for="Image"></label>
+                </div>
+                <div class="col-8">
+                <input asp-for="Image" class="form-control" type="file" />
+                </div>
+                <span asp-validation-for="Image" class="text-danger"></span>
                 </div>*@
             <div class="form-group row">
                 <div class="col-4">
                     <label asp-for="ProductColor"></label>
                 </div>
                 <div class="col-8">
-                    <input asp-for="ProductColor" readonly="readonly" readonly="readonly" class="form-control" />
+                    <input asp-for="ProductColor" readonly="readonly" class="form-control" />
                 </div>
                 <span asp-validation-for="ProductColor" class="text-danger"></span>
             </div>
             <div class="form-group row">
                 <div class="col-4">
-                    <label asp-for="Company"></label>
+                    <label asp-for="CompanyId"></label>
                 </div>
                 <div class="col-8">
-                    @*<select asp-for="ProductTypeId" asp-items="ViewBag.productTypeId" class="form-control"></select>*@
-                    <input asp-for="Company.CompanyId" readonly="readonly" class="form-control" />
+                    <input asp-for="CompanyId" readonly="readonly" class="form-control" />
                 </div>
-                <span asp-validation-for="Company" class="text-danger"></span>
+                <span asp-validation-for="CompanyId" class="text-danger"></span>
             </div>
 
             <div class="form-group row">
                 <div class="col-4">
-
                 </div>
                 <div class="col-8">
                     @if (product != null)
@@ -86,7 +109,7 @@
                     {
                         <input type="submit" class="btn btn-info form-control" value="Add to Cart" />
                     }
-                    
+
                 </div>
 
             </div>
@@ -112,8 +135,9 @@
 </form>
 
 @section Scripts{
-    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
 }
-
+}
 
 
