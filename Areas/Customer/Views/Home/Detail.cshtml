@@ -101,13 +101,18 @@
                 <div class="col-4">
                 </div>
                 <div class="col-8">
-                    @if (product != null)
+                    @if (Model.IsAvailable)
                     {
-                        <button type="submit" class="btn btn-danger form-control" asp-action="Remove" asp-route-id="@Model.ProductId">Remove to Cart</button>
-                    }
-                    else
-                    {
-                        <input type="submit" class="btn btn-info form-control" value="Add to Cart" />
+                        @if (product != null)
+                        {
+                            <button type="submit" class="btn btn-danger form-control" asp-action="Remove" asp-route-id="@Model.ProductId">Remove to Cart</button>
+                        }
+                        else
+                        {
+                            <input type="submit" class="btn btn-info form-control" value="Add to Cart" />
+                        }
+                    }else{
+                        @*<button type="" class="btn btn-danger form-control">Not Available</button>*@
                     }
 
                 </div>
